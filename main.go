@@ -23,10 +23,10 @@ func initRoutes() {
 	router.GET("/alif/quotes/:category_name", controllers.GetQuotesByCategoryHandler)
 	router.GET("/alif/quote/random", controllers.GetRandomQuoteHandler)
 	router.PUT("/alif/quotes/:id", controllers.UpdateQuoteHandler)
-
+	router.DELETE("/alif/quotes/:id", controllers.DeleteQuotesHandler)
 }
 
 // Run is
 func Run() {
-	router.DELETE("/alif/quotes/:id", controllers.DeleteQuotesHandler)
+	
 }

@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/alif/app"
 	"github.com/alif/controllers"
 
 	"github.com/julienschmidt/httprouter"
@@ -16,6 +17,7 @@ var (
 func main() {
 	initRoutes()
 	log.Fatal(http.ListenAndServe("0.0.0.0:3000", router))
+	go app.Worker(3e9, Run)
 }
 
 func initRoutes() {
@@ -23,5 +25,10 @@ func initRoutes() {
 	router.GET("/alif/quotes/:category_name", controllers.GetQuotesByCategoryHandler)
 	router.GET("/alif/quote/random", controllers.GetRandomQuoteHandler)
 	router.PUT("/alif/quotes/:id", controllers.UpdateQuoteHandler)
+
+}
+
+// Run is
+func Run() {
 	router.DELETE("/alif/quotes/:id", controllers.DeleteQuotesHandler)
 }

@@ -2,48 +2,28 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
-	"io/ioutil"
 	"log"
 	"math/rand"
 	"net/http"
 	"strconv"
+	"time"
+
+	"github.com/alif/util"
 
 	models "github.com/alif/models"
 	"github.com/julienschmidt/httprouter"
-	"gopkg.in/natefinch/lumberjack.v2"
-)
-
-var (
-	q *models.GetQuotesResponse
 )
 
 func init() {
-	log.SetOutput(&lumberjack.Logger{
-		Filename:   "logs/app.log",
-		MaxSize:    10, // megabytes
-		MaxBackups: 7,
-		MaxAge:     40,   //days
-		Compress:   true, // disabled by default
-	})
-
-	b, err := ioutil.ReadFile("data.json")
-	if err != nil {
-		log.Println(err)
-		return
-	}
-
-	if err := json.Unmarshal(b, &q); err != nil {
-		log.Println(err)
-	}
-	log.Println("-------- * ------- Starting Logging -------- * -------")
+	rand.Seed(time.Now().UnixNano())
 }
 
 //GetQuotesHandler is
 func GetQuotesHandler(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
 	var res *models.GetQuotesResponse
-	res = q
+
+	res.Quotes = util.GetAllWuotes()
 
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	json.NewEncoder(w).Encode(res)
@@ -56,7 +36,7 @@ func GetQuotesByCategoryHandler(w http.ResponseWriter, r *http.Request, p httpro
 
 	res := models.GetQuotesResponse{}
 
-	for _, quote := range q.Quotes {
+	for _, quote := range util.GetAllWuotes() {
 		if quote.Category == categoryName {
 			res.Quotes = append(res.Quotes, quote)
 		}
@@ -68,13 +48,14 @@ func GetQuotesByCategoryHandler(w http.ResponseWriter, r *http.Request, p httpro
 //DeleteQuotesHandler is
 func DeleteQuotesHandler(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	quoteID, _ := strconv.Atoi(p.ByName("id"))
-	index := 0
-	for _, quote := range q.Quotes {
-		if quote.ID == int32(quoteID) {
-			q.Quotes = append(q.Quotes[:index], q.Quotes[index+1:]...)
-		}
-		index++
-	}
+	res := models.GetQuotesResponse{}
+
+	util.DeleteQuote(quoteID)
+
+	res.Quotes = util.GetAllWuotes()
+
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	json.NewEncoder(w).Encode(res)
 }
 
 //UpdateQuoteHandler is
@@ -84,41 +65,51 @@ func UpdateQuoteHandler(w http.ResponseWriter, r *http.Request, p httprouter.Par
 	)
 	quoteID, err := strconv.Atoi(p.ByName("id"))
 	if err != nil {
-		log.Println("После парсинга id", err)
+		log.Println("Ошибка парсинка id", err)
 		return
 	}
 	err = json.NewDecoder(r.Body).Decode(&req)
-	fmt.Println(req)
 	if err != nil {
-		log.Println("После декодирования ", err)
+		log.Println("Ошибка декодирования ", err)
 		return
 	}
-	res := &models.GetQuotesResponse{}
-	for _, quote := range q.Quotes {
-		if quote.ID == int32(quoteID) {
-			if req.AuthorName != "" {
-				quote.Author = req.AuthorName
-			}
-			if req.CategoryName != "" {
-				quote.Category = req.CategoryName
-			}
-			if req.QuoteText != "" {
-				quote.QuoteText = req.QuoteText
-			}
-		}
-		res.Quotes = append(res.Quotes, quote)
+	if req.AuthorName == "" {
+		w.Write([]byte("Путое поле"))
+		return
 	}
-	q = res
-	w.Header().Set("Content-Type", "application/json; charset=utf-8")
-	json.NewEncoder(w).Encode(q)
-}
+	if req.CategoryName == "" {
+		w.Write([]byte("Путое поле"))
+		return
+	}
+	if req.QuoteText == "" {
+		w.Write([]byte("Путое поле"))
+		return
+	}
 
-// GetRandomQuoteHandler is
-func GetRandomQuoteHandler(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	randomID := rand.Intn(len(q.Quotes))
-	res := q.Quotes[randomID]
+	val, found := util.GetQuote(quoteID)
+	if !found {
+		w.Write([]byte("Not found with whis id"))
+		return
+	}
+	quote := val.(models.Quote)
+	quote.Author = req.AuthorName
+	quote.Category = req.CategoryName
+	quote.QuoteText = req.QuoteText
+	util.SaveQuote(quoteID, quote)
+
+	res := &models.GetQuotesResponse{}
+	res.Quotes = util.GetAllWuotes()
+
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	json.NewEncoder(w).Encode(res)
 }
 
-
+// GetRandomQuoteHandler is
+func GetRandomQuoteHandler(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	randomID := rand.Intn(util.GetQuoteCount())
+	util.DeleteQuote(randomID)
+	res := &models.GetQuotesResponse{}
+	res.Quotes = util.GetAllWuotes()
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	json.NewEncoder(w).Encode(res)
+}

@@ -14,7 +14,7 @@ import (
 )
 
 var (
-	q models.GetQuotesResponse
+	q *models.GetQuotesResponse
 )
 
 func init() {
@@ -94,7 +94,7 @@ func UpdateQuoteHandler(w http.ResponseWriter, r *http.Request, p httprouter.Par
 		log.Println("После кодирования ", err)
 		return
 	}
-	res := models.GetQuotesResponse{}
+	res := &models.GetQuotesResponse{}
 	for _, quote := range q.Quotes {
 		if quote.ID == int32(quoteID) {
 			quote.Author = req.AuthorName
@@ -102,5 +102,6 @@ func UpdateQuoteHandler(w http.ResponseWriter, r *http.Request, p httprouter.Par
 		res.Quotes = append(res.Quotes, quote)
 	}
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
-	json.NewEncoder(w).Encode(res)
+	q = res
+	json.NewEncoder(w).Encode(q)
 }

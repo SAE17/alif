@@ -1,0 +1,99 @@
+2020/01/16 22:07:42 -------- * ------- Starting Logging -------- * -------
+2020/01/16 22:08:57 open ../data.json: The system cannot find the file specified.
+2020/01/16 22:09:54 -------- * ------- Starting Logging -------- * -------
+2020/01/16 22:14:27 -------- * ------- Starting Logging -------- * -------
+2020/01/16 22:17:08 -------- * ------- Starting Logging -------- * -------
+2020/01/16 22:20:13 -------- * ------- Starting Logging -------- * -------
+2020/01/16 22:27:55 -------- * ------- Starting Logging -------- * -------
+2020/01/16 22:37:18 -------- * ------- Starting Logging -------- * -------
+2020/01/16 23:05:19 -------- * ------- Starting Logging -------- * -------
+2020/01/16 23:07:50 -------- * ------- Starting Logging -------- * -------
+2020/01/16 23:19:28 -------- * ------- Starting Logging -------- * -------
+2020/01/16 23:42:36 -------- * ------- Starting Logging -------- * -------
+2020/01/16 23:45:13 -------- * ------- Starting Logging -------- * -------
+2020/01/16 23:47:12 -------- * ------- Starting Logging -------- * -------
+2020/01/16 23:47:31 -------- * ------- Starting Logging -------- * -------
+2020/01/16 23:49:16 -------- * ------- Starting Logging -------- * -------
+2020/01/16 23:50:53 -------- * ------- Starting Logging -------- * -------
+2020/01/16 23:53:35 -------- * ------- Starting Logging -------- * -------
+2020/01/17 14:36:48 -------- * ------- Starting Logging -------- * -------
+2020/01/17 14:38:39 http: panic serving [::1]:31874: runtime error: invalid memory address or nil pointer dereference
+goroutine 4 [running]:
+net/http.(*conn).serve.func1(0xc000130000)
+	c:/go/src/net/http/server.go:1769 +0x140
+panic(0x6c1120, 0x961130)
+	c:/go/src/runtime/panic.go:522 +0x1c3
+github.com/alif/controllers.UpdateQuoteHandler(0x77da80, 0xc000146380, 0xc0000ee500, 0xc00005af80, 0x1, 0x1)
+	C:/Users/Admin/go/src/github.com/alif/controllers/quotesHandler.go:96 +0x238
+github.com/julienschmidt/httprouter.(*Router).ServeHTTP(0xc00005e4c0, 0x77da80, 0xc000146380, 0xc0000ee500)
+	C:/Users/Admin/go/src/github.com/julienschmidt/httprouter/router.go:334 +0x94f
+net/http.serverHandler.ServeHTTP(0xc000056ea0, 0x77da80, 0xc000146380, 0xc0000ee500)
+	c:/go/src/net/http/server.go:2774 +0xaf
+net/http.(*conn).serve(0xc000130000, 0x77e000, 0xc00005e540)
+	c:/go/src/net/http/server.go:1878 +0x858
+created by net/http.(*Server).Serve
+	c:/go/src/net/http/server.go:2884 +0x2fb
+2020/01/17 14:39:49 http: panic serving [::1]:31942: runtime error: invalid memory address or nil pointer dereference
+goroutine 27 [running]:
+net/http.(*conn).serve.func1(0xc00005cd20)
+	c:/go/src/net/http/server.go:1769 +0x140
+panic(0x6c1120, 0x961130)
+	c:/go/src/runtime/panic.go:522 +0x1c3
+github.com/alif/controllers.UpdateQuoteHandler(0x77da80, 0xc00013c380, 0xc000190200, 0xc0000042c0, 0x1, 0x1)
+	C:/Users/Admin/go/src/github.com/alif/controllers/quotesHandler.go:96 +0x238
+github.com/julienschmidt/httprouter.(*Router).ServeHTTP(0xc00005e4c0, 0x77da80, 0xc00013c380, 0xc000190200)
+	C:/Users/Admin/go/src/github.com/julienschmidt/httprouter/router.go:334 +0x94f
+net/http.serverHandler.ServeHTTP(0xc000056ea0, 0x77da80, 0xc00013c380, 0xc000190200)
+	c:/go/src/net/http/server.go:2774 +0xaf
+net/http.(*conn).serve(0xc00005cd20, 0x77e000, 0xc00001a400)
+	c:/go/src/net/http/server.go:1878 +0x858
+created by net/http.(*Server).Serve
+	c:/go/src/net/http/server.go:2884 +0x2fb
+2020/01/17 14:40:13 -------- * ------- Starting Logging -------- * -------
+2020/01/17 14:40:20 http: panic serving [::1]:31999: runtime error: invalid memory address or nil pointer dereference
+goroutine 4 [running]:
+net/http.(*conn).serve.func1(0xc000130000)
+	c:/go/src/net/http/server.go:1769 +0x140
+panic(0x6c1120, 0x961130)
+	c:/go/src/runtime/panic.go:522 +0x1c3
+github.com/alif/controllers.UpdateQuoteHandler(0x77daa0, 0xc000136000, 0xc0000ee100, 0xc000058da0, 0x1, 0x1)
+	C:/Users/Admin/go/src/github.com/alif/controllers/quotesHandler.go:97 +0x238
+github.com/julienschmidt/httprouter.(*Router).ServeHTTP(0xc00005e500, 0x77daa0, 0xc000136000, 0xc0000ee100)
+	C:/Users/Admin/go/src/github.com/julienschmidt/httprouter/router.go:334 +0x94f
+net/http.serverHandler.ServeHTTP(0xc00005af70, 0x77daa0, 0xc000136000, 0xc0000ee100)
+	c:/go/src/net/http/server.go:2774 +0xaf
+net/http.(*conn).serve(0xc000130000, 0x77dfe0, 0xc00005e580)
+	c:/go/src/net/http/server.go:1878 +0x858
+created by net/http.(*Server).Serve
+	c:/go/src/net/http/server.go:2884 +0x2fb
+2020/01/17 14:41:57 -------- * ------- Starting Logging -------- * -------
+2020/01/17 14:42:06 http: panic serving [::1]:32074: runtime error: invalid memory address or nil pointer dereference
+goroutine 21 [running]:
+net/http.(*conn).serve.func1(0xc00005cbe0)
+	c:/go/src/net/http/server.go:1769 +0x140
+panic(0x6c1120, 0x961130)
+	c:/go/src/runtime/panic.go:522 +0x1c3
+github.com/alif/controllers.UpdateQuoteHandler(0x77daa0, 0xc00012e000, 0xc00012c000, 0xc000058de0, 0x1, 0x1)
+	C:/Users/Admin/go/src/github.com/alif/controllers/quotesHandler.go:97 +0x29d
+github.com/julienschmidt/httprouter.(*Router).ServeHTTP(0xc00005e4c0, 0x77daa0, 0xc00012e000, 0xc00012c000)
+	C:/Users/Admin/go/src/github.com/julienschmidt/httprouter/router.go:334 +0x94f
+net/http.serverHandler.ServeHTTP(0xc00005add0, 0x77daa0, 0xc00012e000, 0xc00012c000)
+	c:/go/src/net/http/server.go:2774 +0xaf
+net/http.(*conn).serve(0xc00005cbe0, 0x77dfe0, 0xc00001a0c0)
+	c:/go/src/net/http/server.go:1878 +0x858
+created by net/http.(*Server).Serve
+	c:/go/src/net/http/server.go:2884 +0x2fb
+2020/01/17 14:46:15 -------- * ------- Starting Logging -------- * -------
+2020/01/17 14:46:26 EOF
+2020/01/17 14:51:52 -------- * ------- Starting Logging -------- * -------
+2020/01/17 14:53:24 -------- * ------- Starting Logging -------- * -------
+2020/01/17 14:53:34 invalid character '-' in numeric literal
+2020/01/17 14:54:30 -------- * ------- Starting Logging -------- * -------
+2020/01/17 14:54:44 invalid character '-' in numeric literal
+2020/01/17 14:55:58 invalid character '-' in numeric literal
+2020/01/17 14:57:19 -------- * ------- Starting Logging -------- * -------
+2020/01/17 14:57:59 invalid character '-' in numeric literal
+2020/01/17 14:58:30 -------- * ------- Starting Logging -------- * -------
+2020/01/17 14:58:38 После кодирования  invalid character '-' in numeric literal
+2020/01/17 14:59:47 После кодирования  invalid character 'a' looking for beginning of value
+2020/01/17 15:14:46 -------- * ------- Starting Logging -------- * -------

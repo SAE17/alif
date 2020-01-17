@@ -21,7 +21,7 @@ func init() {
 //GetQuotesHandler is
 func GetQuotesHandler(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
-	var res *models.GetQuotesResponse
+	var res models.GetQuotesResponse
 
 	res.Quotes = util.GetAllWuotes()
 

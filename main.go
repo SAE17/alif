@@ -4,7 +4,6 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/alif/app"
 	"github.com/alif/controllers"
 
 	"github.com/julienschmidt/httprouter"
@@ -17,7 +16,6 @@ var (
 func main() {
 	initRoutes()
 	log.Fatal(http.ListenAndServe("0.0.0.0:3000", router))
-	go app.Worker(3e9, Run)
 }
 
 func initRoutes() {

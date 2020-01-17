@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"net/http"
 	"strconv"
 
@@ -27,13 +28,13 @@ func init() {
 	})
 
 	b, err := ioutil.ReadFile("data.json")
-
-	if err := json.Unmarshal(b, &q); err != nil {
-		log.Println(err)
-	}
 	if err != nil {
 		log.Println(err)
 		return
+	}
+
+	if err := json.Unmarshal(b, &q); err != nil {
+		log.Println(err)
 	}
 	log.Println("-------- * ------- Starting Logging -------- * -------")
 }
@@ -41,10 +42,8 @@ func init() {
 //GetQuotesHandler is
 func GetQuotesHandler(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
-	res := models.GetQuotesResponse{}
-	for _, quote := range q.Quotes {
-		res.Quotes = append(res.Quotes, quote)
-	}
+	var res *models.GetQuotesResponse
+	res = q
 
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	json.NewEncoder(w).Encode(res)
@@ -91,17 +90,35 @@ func UpdateQuoteHandler(w http.ResponseWriter, r *http.Request, p httprouter.Par
 	err = json.NewDecoder(r.Body).Decode(&req)
 	fmt.Println(req)
 	if err != nil {
-		log.Println("После кодирования ", err)
+		log.Println("После декодирования ", err)
 		return
 	}
 	res := &models.GetQuotesResponse{}
 	for _, quote := range q.Quotes {
 		if quote.ID == int32(quoteID) {
-			quote.Author = req.AuthorName
+			if req.AuthorName != "" {
+				quote.Author = req.AuthorName
+			}
+			if req.CategoryName != "" {
+				quote.Category = req.CategoryName
+			}
+			if req.QuoteText != "" {
+				quote.QuoteText = req.QuoteText
+			}
 		}
 		res.Quotes = append(res.Quotes, quote)
 	}
-	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	q = res
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	json.NewEncoder(w).Encode(q)
 }
+
+// GetRandomQuoteHandler is
+func GetRandomQuoteHandler(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	randomID := rand.Intn(len(q.Quotes))
+	res := q.Quotes[randomID]
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	json.NewEncoder(w).Encode(res)
+}
+
+

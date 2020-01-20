@@ -7,10 +7,34 @@ type GetQuotesResponse struct {
 
 // Quote -
 type Quote struct {
-	ID        int32  `json:"id"`
-	Category  string `json:"category"`
-	Author    string `json:"author"`
-	QuoteText string `json:"quoteText"`
+	ID       int32    `json:"id"`
+	Category Category `json:"category"`
+	Author   Author   `json:"author"`
+	Title    string   `json:"title"`
+}
+
+// Author is
+type Author struct {
+	ID   int32  `json:"id,omitempty"`
+	Name string `json:"name,omitempty"`
+}
+
+// Category is
+type Category struct {
+	ID    int32  `json:"id,omitempty"`
+	Title string `json:"title,omitempty"`
+}
+
+// AddQuoteRequest is
+type AddQuoteRequest struct {
+	Title      string `json:"title"`
+	AuthorID   uint32 `json:"author_id"`
+	CategoryID uint32 `json:"category_id"`
+}
+
+//AddQuoteResponse is
+type AddQuoteResponse struct {
+	Quote Quote `json:"quote"`
 }
 
 // UpdateQuoteRequest is

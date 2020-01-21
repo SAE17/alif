@@ -25,6 +25,7 @@ func initRoutes() {
 	router.GET("/alif/quotes", controllers.GetQuotesHandler)
 	router.GET("/alif/quotes/:id", controllers.GetQuoteByIDHandler)
 	router.POST("/alif/quotes", controllers.AddQuoteHandler)
+	router.DELETE("/alif/quotes/:id", controllers.DeleteQuoteHandle)
 }
 
 // Run is

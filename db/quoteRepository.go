@@ -63,6 +63,17 @@ func GetQuoteByID(id uint32) (*models.Quote, error) {
 	return &quote, nil
 }
 
+//DeleteQuote is
+func DeleteQuote(id uint32) ([]*models.Quote, error) {
+	query := ` DELETE FROM "Quotes" q WHERE q.id = $1`
+	_, err := pgPool.Exec(query, id)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	return GetAllQuotes()
+}
+
 // AddQuote добавляет новую запись в БД
 func AddQuote(quote *models.AddQuoteRequest) (*models.Quote, error) {
 	// addQuote, _ := pgPool.Begin()
